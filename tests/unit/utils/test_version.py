@@ -561,6 +561,7 @@ class ImportFake:
             ('jinja2', True),
             ('pygments', True),
             ('yaml', True),
+            ('adblock', True),
             ('cssutils', True),
             ('attr', True),
             ('PyQt5.QtWebEngineWidgets', True),
@@ -637,7 +638,8 @@ class TestModuleVersions:
 
     @pytest.mark.parametrize('module, idx, expected', [
         ('colorama', 1, 'colorama: no'),
-        ('cssutils', 6, 'cssutils: no'),
+        ('adblock', 6, 'adblock: no'),
+        ('cssutils', 7, 'cssutils: no'),
     ])
     def test_missing_module(self, module, idx, expected, import_fake):
         """Test with a module missing.
@@ -681,6 +683,7 @@ class TestModuleVersions:
         ('jinja2', True),
         ('pygments', True),
         ('yaml', True),
+        ('adblock', True),
         ('cssutils', True),
         ('attr', True),
     ])
