@@ -35,6 +35,7 @@ possible to run or bind multiple commands by separating them with `;;`.
 |<<bookmark-add,bookmark-add>>|Save the current page as a bookmark, or a specific url.
 |<<bookmark-del,bookmark-del>>|Delete a bookmark.
 |<<bookmark-load,bookmark-load>>|Load a bookmark.
+|<<brave-adblock-update,brave-adblock-update>>|Update the adblock block lists.
 |<<buffer,buffer>>|Select tab by index or url/title best match.
 |<<clear-keychain,clear-keychain>>|Clear the currently entered key chain.
 |<<clear-messages,clear-messages>>|Clear all message notifications.
@@ -230,6 +231,12 @@ Load a bookmark.
 
 ==== note
 * This command does not split arguments after the last argument and handles quotes literally.
+
+[[brave-adblock-update]]
+=== brave-adblock-update
+Update the adblock block lists.
+
+This updates `~/.local/share/qutebrowser/blocked-hosts` with downloaded host lists and re-reads `~/.config/qutebrowser/blocked-hosts`.
 
 [[buffer]]
 === buffer
