@@ -137,10 +137,10 @@
 |<<completion.web_history.max_items,completion.web_history.max_items>>|Number of URLs to show in the web history.
 |<<confirm_quit,confirm_quit>>|Require a confirmation before quitting the application.
 |<<content.autoplay,content.autoplay>>|Automatically start playing `<video>` elements.
-|<<content.blocking.adblock.enabled,content.blocking.adblock.enabled>>|Enable Brave AdBlock.
 |<<content.blocking.adblock.lists,content.blocking.adblock.lists>>|List of URLs of lists which contain adblock rules.
-|<<content.blocking.hosts.enabled,content.blocking.hosts.enabled>>|Enable host blocking.
+|<<content.blocking.enabled,content.blocking.enabled>>|Enable the ad blocker
 |<<content.blocking.hosts.lists,content.blocking.hosts.lists>>|List of URLs of lists which contain hosts to block.
+|<<content.blocking.method,content.blocking.method>>|Which method of blocking ads should be used.
 |<<content.blocking.whitelist,content.blocking.whitelist>>|A list of patterns that should always be loaded, despite being ad-blocked. Local domains are always exempt from adblocking.
 |<<content.cache.appcache,content.cache.appcache>>|Enable support for the HTML 5 web application cache feature.
 |<<content.cache.maximum_pages,content.cache.maximum_pages>>|Maximum number of pages to hold in the global memory page cache.
@@ -343,7 +343,7 @@ The keys of the given dictionary are the aliases, while the values are the comma
 
 Type: <<types,Dict>>
 
-Default: 
+Default:
 
 - +pass:[q]+: +pass:[close]+
 - +pass:[qa]+: +pass:[quit]+
@@ -452,7 +452,7 @@ This setting can only be set in config.py.
 
 Type: <<types,Dict>>
 
-Default: 
+Default:
 
 - +pass:[caret]+:
 
@@ -773,7 +773,7 @@ Note that when a key is bound (via `bindings.default` or `bindings.commands`), t
 
 Type: <<types,Dict>>
 
-Default: 
+Default:
 
 - +pass:[&lt;Ctrl-6&gt;]+: +pass:[&lt;Ctrl-^&gt;]+
 - +pass:[&lt;Ctrl-Enter&gt;]+: +pass:[&lt;Ctrl-Return&gt;]+
@@ -832,7 +832,7 @@ May be a single color to use for all columns or a list of three colors, one for 
 
 Type: <<types,List of QtColor&#44; or QtColor>>
 
-Default: 
+Default:
 
 - +pass:[white]+
 - +pass:[white]+
@@ -1794,7 +1794,7 @@ Valid values:
  * +bookmarks+
  * +history+
 
-Default: 
+Default:
 
 - +pass:[searchengines]+
 - +pass:[quickmarks]+
@@ -1898,7 +1898,7 @@ Valid values:
  * +downloads+: Show a confirmation if downloads are running
  * +never+: Never show a confirmation.
 
-Default: 
+Default:
 
 - +pass:[never]+
 
@@ -1917,16 +1917,6 @@ On QtWebEngine, this setting requires Qt 5.10 or newer.
 
 On QtWebKit, this setting is unavailable.
 
-[[content.blocking.adblock.enabled]]
-=== content.blocking.adblock.enabled
-Enable Brave AdBlock.
-
-This setting supports URL patterns.
-
-Type: <<types,Bool>>
-
-Default: +pass:[true]+
-
 [[content.blocking.adblock.lists]]
 === content.blocking.adblock.lists
 List of URLs of lists which contain adblock rules.
@@ -1934,14 +1924,14 @@ List of URLs of lists which contain adblock rules.
 
 Type: <<types,List of Url>>
 
-Default: 
+Default:
 
 - +pass:[https://easylist.to/easylist/easylist.txt]+
 - +pass:[https://easylist.to/easylist/easyprivacy.txt]+
 
-[[content.blocking.hosts.enabled]]
-=== content.blocking.hosts.enabled
-Enable host blocking.
+[[content.blocking.enabled]]
+=== content.blocking.enabled
+Enable the ad blocker
 
 This setting supports URL patterns.
 
@@ -1968,9 +1958,30 @@ The file `~/.config/qutebrowser/blocked-hosts` is always read if it exists.
 
 Type: <<types,List of Url>>
 
-Default: 
+Default:
 
 - +pass:[https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts]+
+
+[[content.blocking.method]]
+=== content.blocking.method
+Which method of blocking ads should be used.
+
+Support for Adblock Plus syntax blocklists requires the `adblock` Python
+package to be installed, which is an optional dependency of qutebrowser.
+It can be installed using the command `pip install --user adblock`. This
+is required when either `adblock` or `both` are selected.
+
+
+Type: <<types,String>>
+
+Valid values:
+
+ * +auto+: Use Brave's ABP-style adblocker if available, host blocking otherwise
+ * +adblock+: Use Brave's ABP-style adblocker
+ * +hosts+: Use hosts blocking
+ * +both+: Use both hosts blocking and Brave's ABP-style adblocker
+
+Default: +pass:[auto]+
 
 [[content.blocking.whitelist]]
 === content.blocking.whitelist
@@ -2302,7 +2313,7 @@ The following levels are valid: `none`, `debug`, `info`, `warning`, `error`.
 
 Type: <<types,Dict>>
 
-Default: 
+Default:
 
 - +pass:[error]+: +pass:[debug]+
 - +pass:[info]+: +pass:[debug]+
@@ -2757,7 +2768,7 @@ The following placeholders are defined:
 
 Type: <<types,ShellCommand>>
 
-Default: 
+Default:
 
 - +pass:[gvim]+
 - +pass:[-f]+
@@ -3092,7 +3103,7 @@ Comma-separated list of regular expressions to use for 'next' links.
 
 Type: <<types,List of Regex>>
 
-Default: 
+Default:
 
 - +pass:[\bnext\b]+
 - +pass:[\bmore\b]+
@@ -3107,7 +3118,7 @@ Padding (in pixels) for hints.
 
 Type: <<types,Padding>>
 
-Default: 
+Default:
 
 - +pass:[bottom]+: +pass:[0]+
 - +pass:[left]+: +pass:[3]+
@@ -3120,7 +3131,7 @@ Comma-separated list of regular expressions to use for 'prev' links.
 
 Type: <<types,List of Regex>>
 
-Default: 
+Default:
 
 - +pass:[\bprev(ious)?\b]+
 - +pass:[\bback\b]+
@@ -3155,7 +3166,7 @@ This setting can only be set in config.py.
 
 Type: <<types,Dict>>
 
-Default: 
+Default:
 
 - +pass:[all]+:
 
@@ -3712,7 +3723,7 @@ Padding (in pixels) for the statusbar.
 
 Type: <<types,Padding>>
 
-Default: 
+Default:
 
 - +pass:[bottom]+: +pass:[1]+
 - +pass:[left]+: +pass:[0]+
@@ -3762,7 +3773,7 @@ Valid values:
  * +keypress+: Display pressed keys when composing a vi command.
  * +progress+: Progress bar for the current page loading.
 
-Default: 
+Default:
 
 - +pass:[keypress]+
 - +pass:[url]+
@@ -3845,7 +3856,7 @@ Padding (in pixels) for tab indicators.
 
 Type: <<types,Padding>>
 
-Default: 
+Default:
 
 - +pass:[bottom]+: +pass:[2]+
 - +pass:[left]+: +pass:[0]+
@@ -3966,7 +3977,7 @@ Padding (in pixels) around text for tabs.
 
 Type: <<types,Padding>>
 
-Default: 
+Default:
 
 - +pass:[bottom]+: +pass:[0]+
 - +pass:[left]+: +pass:[5]+
@@ -4168,7 +4179,7 @@ Valid values:
  * +query+
  * +anchor+
 
-Default: 
+Default:
 
 - +pass:[path]+
 - +pass:[query]+
@@ -4209,7 +4220,7 @@ term, e.g. `:open google qutebrowser`.
 
 Type: <<types,Dict>>
 
-Default: 
+Default:
 
 - +pass:[DEFAULT]+: +pass:[https://duckduckgo.com/?q={}]+
 
@@ -4227,7 +4238,7 @@ URL parameters to strip with `:yank url`.
 
 Type: <<types,List of String>>
 
-Default: 
+Default:
 
 - +pass:[ref]+
 - +pass:[utm_source]+
@@ -4287,7 +4298,7 @@ Available zoom levels.
 
 Type: <<types,List of Perc>>
 
-Default: 
+Default:
 
 - +pass:[25%]+
 - +pass:[33%]+
