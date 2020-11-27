@@ -291,6 +291,8 @@ class ModuleInfo:
                 self._version = str(version)
                 break
 
+        self._initialized = True
+
     def get_version(self) -> typing.Optional[str]:
         """Finds the module version if it exists."""
         if not self._initialized:
