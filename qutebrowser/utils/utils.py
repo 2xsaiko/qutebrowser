@@ -209,24 +209,12 @@ def read_file(filename: str, binary: bool = False) -> Any:
     if not binary and filename in _resource_cache:
         return _resource_cache[filename]
 
-    if hasattr(sys, 'frozen'):
-        # PyInstaller doesn't support pkg_resources :(
-        # https://github.com/pyinstaller/pyinstaller/wiki/FAQ#misc
-        fn = os.path.join(os.path.dirname(sys.executable), filename)
-        if binary:
-            f: IO
-            with open(fn, 'rb') as f:
-                return f.read()
-        else:
-            with open(fn, 'r', encoding='utf-8') as f:
-                return f.read()
-    else:
-        p = importlib_resources.files(qutebrowser) / filename
+    p = importlib_resources.files(qutebrowser) / filename
 
-        if binary:
-            return p.read_bytes()
+    if binary:
+        return p.read_bytes()
 
-        return p.read_text()
+    return p.read_text()
 
 
 def resource_filename(filename: str) -> str:
@@ -239,6 +227,8 @@ def resource_filename(filename: str) -> str:
         The absolute filename.
     """
     if hasattr(sys, 'frozen'):
+        # PyInstaller doesn't support pkg_resources :(
+        # https://github.com/pyinstaller/pyinstaller/wiki/FAQ#misc
         return os.path.join(os.path.dirname(sys.executable), filename)
     return pkg_resources.resource_filename(qutebrowser.__name__, filename)
 
